@@ -22,3 +22,7 @@ if st.button("Send"):
             st.markdown(msg, unsafe_allow_html=True)
         else:
             st.text(msg)
+
+if st.button("Clear chat"):
+    st.session_state.log = []
+    
