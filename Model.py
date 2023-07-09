@@ -10,6 +10,8 @@ from langchain.chains import RetrievalQA
 from langchain import PromptTemplate
 from langchain.memory import ConversationBufferMemory
 from langchain.agents import initialize_agent, Tool
+from langchain.callbacks import StreamlitCallbackHandler
+
 
 def law_content_splitter(path, splitter = "CIVIL CODE"):
 
@@ -121,7 +123,9 @@ agent = initialize_agent(
     }
 )
 
-response = agent.run(input)
-
-def model(response):
-  return response["output"]
+if prompt := st.chat_input():
+    st.chat_message("user").write(prompt)
+    with st.chat_message("assistant"):
+        st_callback = StreamlitCallbackHandler(st.container())
+        response = agent.run(prompt, callbacks=[st_callback])
+        st.write(response)
