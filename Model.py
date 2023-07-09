@@ -1,5 +1,6 @@
 from langchain.text_splitter import CharacterTextSplitter
 import os
+import streamlit as st
 import openai
 import langchain
 from langchain.embeddings.openai import OpenAIEmbeddings
