@@ -48,7 +48,7 @@ def model(input):
   inheritance_db = Chroma.from_documents(
       documents=inheritance_splitted,
       embedding=embedding,
-      persist_directory= "./documents/embeddings"
+      persist_directory= "./documents"
   )
   
   inheritance = RetrievalQA.from_chain_type(
@@ -62,7 +62,7 @@ def model(input):
   divorce_db = Chroma.from_documents(
       documents=divorce_splitted,
       embedding=embedding,
-      persist_directory="./documents/embeddings"
+      persist_directory="./documents"
   )
   
   divorce = RetrievalQA.from_chain_type(
