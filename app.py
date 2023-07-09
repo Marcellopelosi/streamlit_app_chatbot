@@ -10,7 +10,7 @@ from langchain.chains import RetrievalQA
 from langchain import PromptTemplate
 from langchain.memory import ConversationBufferMemory
 from langchain.agents import initialize_agent, Tool
-from langchain.callbacks import StreamlitCallbackHandler
+# from langchain.callbacks import StreamlitCallbackHandler
 
 
 def law_content_splitter(path, splitter = "CIVIL CODE"):
@@ -122,9 +122,6 @@ agent = initialize_agent(
         "input_variables":["input", "chat_history", "agent_scratchpad"]
     }
 )
-
-import streamlit as st
-from Model import model
 
 # https://discuss.streamlit.io/t/1-st-button-delete-result-of-2-nd-button/33280/2
 if 'log' not in st.session_state:
