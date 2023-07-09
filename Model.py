@@ -24,8 +24,8 @@ def model(input):
   inheritance_splitted = law_content_splitter("./documents/INHERITANCE.txt")
   divorce_splitted = law_content_splitter("./documents/DIVISION OF ASSETS AFTER DIVORCE.txt")
   
-  os.environ["OPENAI_API_KEY"] == st.secrets["openai_key"]
-  openai.api_key  = os.environ['OPENAI_API_KEY']
+  os.environ["openai_key"] == st.secrets["openai_key"]
+  openai.api_key  = os.environ['openai_key']
   
   embedding = OpenAIEmbeddings()
   
