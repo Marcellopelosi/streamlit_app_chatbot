@@ -5,7 +5,7 @@ import openai
 import langchain
 from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.vectorstores import Chroma
-from langchain.llms import OpenAI
+from langchain.chat_models import ChatOpenAI
 from langchain.chains import RetrievalQA
 from langchain import PromptTemplate
 from langchain.memory import ConversationBufferMemory
