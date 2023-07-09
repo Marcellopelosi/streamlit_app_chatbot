@@ -10,7 +10,7 @@ from langchain.chat_models import ChatOpenAI
 from langchain.chains import RetrievalQA
 
 
-def openai_setting(key):
+def openai_setting():
   os.environ["OPENAI_API_KEY"] == st.secrets["OPENAI_API_KEY"]
   embedding = OpenAIEmbeddings()
   model_name = "gpt-3.5-turbo"
@@ -29,7 +29,7 @@ def law_content_splitter(path, splitter = "CIVIL CODE"):
 
 inheritance_splitted = law_content_splitter("./documents/INHERITANCE.txt")
 divorce_splitted = law_content_splitter("./documents//DIVISION OF ASSETS AFTER DIVORCE.txt")
-embedding, llm = openai_setting(key)
+embedding, llm = openai_setting()
 
 text_db = Chroma.from_documents(
     documents=inheritance_splitted + divorce_splitted, #I due documenti, splittati per articolo, vengono uniti
