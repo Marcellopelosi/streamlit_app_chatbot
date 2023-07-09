@@ -34,4 +34,4 @@ if st.button("Send"):
 
 if st.button("Clear chat"):
     st.session_state.log = []
-    
+    st.session_state.buffer_memory = ConversationBufferWindowMemory(k=3,return_messages=True)
