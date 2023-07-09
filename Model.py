@@ -4,6 +4,7 @@ from langchain.text_splitter import CharacterTextSplitter
 import os
 import openai
 import langchain
+import streamlit as st
 from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.vectorstores import Chroma
 from langchain.chat_models import ChatOpenAI
