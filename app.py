@@ -125,7 +125,5 @@ agent = initialize_agent(
 
 if prompt := st.chat_input():
     st.chat_message("user").write(prompt)
-    with st.chat_message("assistant"):
-        st_callback = StreamlitCallbackHandler(st.container())
-        response = agent.run(prompt, callbacks=[st_callback])
-        st.write(response)
+    response = agent.run(prompt)
+    st.chat_message("assistant").write(response)
