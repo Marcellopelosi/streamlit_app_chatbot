@@ -22,7 +22,7 @@ if st.button("Send"):
     st.session_state.log.append(styled_user_input)
     st.session_state.log.append(response)
     memory = st.session_state.buffer_memory
-    memory.save_context({"input": input}, {"output": response})
+    memory.save_context({"input": user_input}, {"output": response})
     st.session_state.buffer_memory = memory
     
 
