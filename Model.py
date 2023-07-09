@@ -122,15 +122,15 @@ def model(input):
       }
   )
   
-  response = agent({"input":input})
+  response = agent(input)
 
-  with open("complete_agent_answer.txt", 'w') as file:
-    for int_step in response["intermediate_steps"]:
-      for i in int_step:
-        if type(i) == langchain.schema.agent.AgentAction:
-          file.write(i.log)
-        else:
-          file.write(i)
-    file.write("Final Answer:" + output)
+  # with open("complete_agent_answer.txt", 'w') as file:
+  #   for int_step in response["intermediate_steps"]:
+  #     for i in int_step:
+  #       if type(i) == langchain.schema.agent.AgentAction:
+  #         file.write(i.log)
+  #       else:
+  #         file.write(i)
+  #   file.write("Final Answer:" + output)
   
   return response['output']
