@@ -27,8 +27,8 @@ def law_content_splitter(path, splitter = "CIVIL CODE"):
   return text_splitter.create_documents(law_content_by_article)
 
 
-inheritance_splitted = law_content_splitter(".documents/INHERITANCE.txt")
-divorce_splitted = law_content_splitter(".documents//DIVISION OF ASSETS AFTER DIVORCE.txt")
+inheritance_splitted = law_content_splitter("./documents/INHERITANCE.txt")
+divorce_splitted = law_content_splitter("./documents//DIVISION OF ASSETS AFTER DIVORCE.txt")
 embedding, llm = openai_setting(key)
 
 text_db = Chroma.from_documents(
