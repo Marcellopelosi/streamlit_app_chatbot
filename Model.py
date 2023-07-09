@@ -9,6 +9,8 @@ from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.vectorstores import Chroma
 from langchain.chat_models import ChatOpenAI
 from langchain.chains import RetrievalQA
+from langchain.chains import ConversationChain
+
 
 
 def openai_setting():
@@ -87,6 +89,8 @@ def from_user_query_to_llm_query(query):
 
 llm = OpenAI(model_name="gpt-3.5-turbo", temperature = 0)
 
-def model(input):
+def model(input, memory):
   query= from_user_query_to_llm_query(input)
-  return llm(query)
+  conversation = ConversationChain(memory=memory, llm=llm, verbose=True)
+  output = conversation.predict(from_user_query_to_llm_query(input))
+  return output
