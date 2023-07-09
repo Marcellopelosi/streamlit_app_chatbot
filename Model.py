@@ -35,7 +35,7 @@ embedding, llm = openai_setting()
 text_db = Chroma.from_documents(
     documents=inheritance_splitted + divorce_splitted, #I due documenti, splittati per articolo, vengono uniti
     embedding=embedding,
-    persist_directory=persist_directory
+    persist_directory= "./documents"
 )
 
 def find_related_contents(query):
