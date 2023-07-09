@@ -123,5 +123,5 @@ agent = initialize_agent(
 
 response = agent.run(input)
 
-def model(response)
+def model(response):
   return response["output"]
