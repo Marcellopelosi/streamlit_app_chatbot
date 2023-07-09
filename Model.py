@@ -92,5 +92,5 @@ llm = OpenAI(model_name="gpt-3.5-turbo", temperature = 0)
 def model(input, memory):
   query= from_user_query_to_llm_query(input)
   conversation = ConversationChain(memory=memory, llm=llm, verbose=True)
-  output = conversation.predict(from_user_query_to_llm_query(input))
+  output = conversation.predict(input=from_user_query_to_llm_query(input))
   return output
