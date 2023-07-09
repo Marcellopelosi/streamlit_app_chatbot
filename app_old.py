@@ -21,6 +21,10 @@ if st.button("Send"):
     # Some conditional or callback function process will add to the log
     st.session_state.log.append(styled_user_input)
     st.session_state.log.append(response)
+    memory = st.session_state.buffer_memory
+    memory.save_context({"input": input}, {"output": response})
+    st.session_state.buffer_memory = memory
+    
 
     for i, msg in enumerate(st.session_state.log):
         if i%2 == 0:
