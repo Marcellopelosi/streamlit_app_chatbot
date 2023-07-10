@@ -10,11 +10,8 @@ from langchain.chains import RetrievalQA
 from langchain import PromptTemplate
 from langchain.memory import ConversationBufferMemory
 from langchain.agents import initialize_agent, Tool
-# from langchain.callbacks import StreamlitCallbackHandler
+from langchain.callbacks import StreamlitCallbackHandler
 
-st.set_page_config(page_title="LangChain Demo", page_icon=":robot:")
-# From here down is all the StreamLit UI.
-st.header("LangChain Demo")
 
 def law_content_splitter(path, splitter = "CIVIL CODE"):
 
@@ -126,38 +123,9 @@ agent = initialize_agent(
     }
 )
 
-"""Python file to serve as the frontend"""
-import streamlit as st
-from streamlit_chat import message
-
-from langchain.chains import ConversationChain
-from langchain.llms import OpenAI
-
-
-
-
-if "generated" not in st.session_state:
-    st.session_state["generated"] = []
-
-if "past" not in st.session_state:
-    st.session_state["past"] = []
-
-
-def get_text():
-    input_text = st.text_input("You: ", "Hello, how are you?", key="input")
-    return input_text
-
-
-user_input = get_text()
-
-if user_input:
-    output = agent.run(input=user_input)
-
-    st.session_state.past.append(user_input)
-    st.session_state.generated.append(output)
-
-if st.session_state["generated"]:
-
-    for i in range(len(st.session_state["generated"]) - 1, -1, -1):
-        message(st.session_state["generated"][i], key=str(i))
-        message(st.session_state["past"][i], is_user=True, key=str(i) + "_user")
+if prompt := st.chat_input():
+    st.chat_message("user").write(prompt)
+    with st.chat_message("assistant"):
+        st_callback = StreamlitCallbackHandler(st.container())
+        response = agent.run(prompt, callbacks=[st_callback])
+        st.write(response)
