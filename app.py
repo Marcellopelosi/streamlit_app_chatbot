@@ -127,5 +127,5 @@ if prompt := st.chat_input():
     st.chat_message("user").write(prompt)
     with st.chat_message("assistant"):
         st_callback = StreamlitCallbackHandler(st.container())
-        response = agent.run(prompt, callbacks=[st_callback],handle_parsing_errors="Ops, there was a problem with the output!")
+        response = agent.run(prompt, callbacks=[st_callback])
         st.write(response)
