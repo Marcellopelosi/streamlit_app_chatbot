@@ -12,6 +12,8 @@ from langchain.memory import ConversationBufferMemory
 from langchain.agents import initialize_agent, Tool
 # from langchain.callbacks import StreamlitCallbackHandler
 
+st.set_page_config(page_title="LangChain Demo", page_icon=":robot:")
+
 
 def law_content_splitter(path, splitter = "CIVIL CODE"):
 
@@ -132,7 +134,6 @@ from langchain.llms import OpenAI
 
 
 # From here down is all the StreamLit UI.
-st.set_page_config(page_title="LangChain Demo", page_icon=":robot:")
 st.header("LangChain Demo")
 
 if "generated" not in st.session_state:
