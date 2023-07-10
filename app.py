@@ -123,27 +123,40 @@ agent = initialize_agent(
     }
 )
 
-# https://discuss.streamlit.io/t/1-st-button-delete-result-of-2-nd-button/33280/2
-if 'log' not in st.session_state:
-    st.session_state.log = []
+"""Python file to serve as the frontend"""
+import streamlit as st
+from streamlit_chat import message
 
-st.title("Chatbot")
+from langchain.chains import ConversationChain
+from langchain.llms import OpenAI
 
-user_input = st.text_input("Ask here:")
 
-if st.button("Send"):
-    response = agent(user_input)
-    styled_user_input = f'<p style="color:green; text-align:right;">{user_input}</p>'
+# From here down is all the StreamLit UI.
+st.set_page_config(page_title="LangChain Demo", page_icon=":robot:")
+st.header("LangChain Demo")
 
-    # Some conditional or callback function process will add to the log
-    st.session_state.log.append(styled_user_input)
-    st.session_state.log.append(response)
+if "generated" not in st.session_state:
+    st.session_state["generated"] = []
 
-    for i, msg in enumerate(st.session_state.log):
-        if i%2 == 0:
-            st.markdown(msg, unsafe_allow_html=True)
-        else:
-            st.text(msg)
+if "past" not in st.session_state:
+    st.session_state["past"] = []
 
-if st.button("Clear chat"):
-    st.session_state.log = []
+
+def get_text():
+    input_text = st.text_input("You: ", "Hello, how are you?", key="input")
+    return input_text
+
+
+user_input = get_text()
+
+if user_input:
+    output = agent.run(input=user_input)
+
+    st.session_state.past.append(user_input)
+    st.session_state.generated.append(output)
+
+if st.session_state["generated"]:
+
+    for i in range(len(st.session_state["generated"]) - 1, -1, -1):
+        message(st.session_state["generated"][i], key=str(i))
+        message(st.session_state["past"][i], is_user=True, key=str(i) + "_user")
