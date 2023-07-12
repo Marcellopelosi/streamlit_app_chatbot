@@ -94,4 +94,4 @@ def answer(query, memory):
   llm_chain.prompt = create_prompt_from_source(source = find_related_contents(query))
   llm_chain.memory = memory
   res = llm_chain.predict(human_input=query)
-  return res
+  return res, llm_chain.memory
