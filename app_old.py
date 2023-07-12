@@ -1,5 +1,6 @@
 import streamlit as st
 from Model import answer
+from langchain.memory import ConversationBufferMemory
 
 # https://discuss.streamlit.io/t/1-st-button-delete-result-of-2-nd-button/33280/2
 if 'log' not in st.session_state:
