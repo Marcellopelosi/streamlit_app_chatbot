@@ -45,52 +45,53 @@ def find_related_contents(query):
   related_contents_docs = [d.page_content for d in related_contents_docs]
   return "\n\n".join(related_contents_docs)
 
+from langchain.memory import ConversationBufferMemory
+from langchain import OpenAI, LLMChain, PromptTemplate
 
-def from_user_query_to_llm_query(query):
+
+def create_prompt_from_source(source = ''):
   template = """ You are a legal bot that should provide useful informations starting from a legal source and a user question.
-  If you are not able to answer say that explicitly. Before you reply, attend, think and remember all the instructions set here.
+    If you are not able to answer say that explicitly.
 
+    EXAMPLE:
 
-  EXAMPLE:
+    SOURCE:
+    457
+    DEVOLUTION OF THE INHERITANCE
+    The estate is devolved by law or by will.
+    Legitimate succession does not take place unless when testamentary succession is lacking in whole or in part.
+    Testamentary dispositions must not affect the rights reserved by law for the legitimates.
 
-  SOURCE:
-  457
-  DEVOLUTION OF THE INHERITANCE
-  The estate is devolved by law or by will.
-  Legitimate succession does not take place unless when testamentary succession is lacking in whole or in part.
-  Testamentary dispositions must not affect the rights reserved by law for the legitimates.
+    QUESTION:
+    Tell me something about its devolution
 
-  QUESTION:
-  Tell me something about the devolution of the inheritance
+    YOUR ANSWER SHOULD BE SOMETHING LIKE:
+    According to the article number 457, The estate is devolved by law or by will.
 
-  YOUR ANSWER SHOULD BE SOMETHING LIKE:
-  According to the article number 457, The estate is devolved by law or by will.
+    Then you can continue with other information you can extract from the source.
 
-  Then you can continue with other information you can extract from the source.
-
-  SOURCE:
-  {similar_docs}
-
-  QUESTION:
-  {user_input}
-
-  YOUR ANSWER:
-
-  """
-
+    SOURCE:
+    {similar_docs}
+    """.format(similar_docs = source) +  """
+    {chat_history}
+    Human: {human_input}
+    Chatbot:"""
   prompt = PromptTemplate(
-          input_variables = ["user_input", "similar_docs"],
-          template=template
+      input_variables=["chat_history", "human_input"], template=template
   )
+  return prompt
 
-  promptValue = prompt.format(user_input = query, similar_docs = find_related_contents(query))
-  return promptValue
+memory = ConversationBufferMemory(memory_key="chat_history")
 
+llm_chain = LLMChain(
+    llm=OpenAI(),
+    prompt=create_prompt_from_source(),
+    verbose=False,
+    memory=memory,
+)
 
-llm = OpenAI(model_name="gpt-3.5-turbo", temperature = 0)
-
-def model(input, memory):
-  query= from_user_query_to_llm_query(input)
-  conversation = ConversationChain(memory=memory, llm=llm, verbose=True)
-  output = conversation.predict(input=from_user_query_to_llm_query(input))
-  return output
+def answer(query, memory):
+  llm_chain.prompt = create_prompt_from_source(source = find_related_contents(query))
+  llm_chain.memory = memory
+  res = llm_chain.predict(human_input=query)
+  return res
