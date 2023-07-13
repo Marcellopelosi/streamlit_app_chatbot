@@ -10,6 +10,15 @@ if 'memory' not in st.session_state:
     st.session_state.memory = ConversationBufferMemory(memory_key="chat_history")
 
 
+def output_printer(response):
+     words = text.split()
+     for i in range(0, len(words), 6):
+        substring = ' '.join(words[i:i+6])
+        st.text(substring)
+          
+
+
+
 st.title("Chatbot")
 
 user_input = st.text_input("Ask here:")
@@ -26,7 +35,7 @@ if st.button("Send"):
         if i%2 == 0:
             st.markdown(msg, unsafe_allow_html=True)
         else:
-            st.text(msg)
+            output_printer(msg)
 
 if st.button("Clear chat"):
     st.session_state.memory = ConversationBufferMemory(memory_key="chat_history")
