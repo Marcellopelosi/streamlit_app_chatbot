@@ -11,7 +11,7 @@ if 'memory' not in st.session_state:
 
 
 def output_printer(response):
-     words = text.split()
+     words = response.split()
      for i in range(0, len(words), 6):
         substring = ' '.join(words[i:i+6])
         st.text(substring)
